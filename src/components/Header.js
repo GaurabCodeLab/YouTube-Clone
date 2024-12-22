@@ -2,14 +2,20 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { YOUTUBE_LOGO } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { toggleSidebar } from "../redux/toggleSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   return (
     <div className="shadow-md grid grid-flow-col">
       <div className="flex gap-2 col-span-2">
         <div className="self-center ps-4">
           {" "}
-          <GiHamburgerMenu className="text-xl cursor-pointer" />
+          <GiHamburgerMenu
+            className="text-xl cursor-pointer"
+            onClick={() => dispatch(toggleSidebar())}
+          />
         </div>
         <img
           src={YOUTUBE_LOGO}
