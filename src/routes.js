@@ -12,7 +12,7 @@ const routes = [
         element: <Home />,
       },
       {
-        path: "/video",
+        path: "/watch",
         element: <Video />,
       },
     ],

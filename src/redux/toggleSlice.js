@@ -9,8 +9,11 @@ const toggleSlice = createSlice({
     toggleSidebar: (state) => {
       state.show = !state.show;
     },
+    closeSideBar: (state, action) => {
+      state.show = false;
+    },
   },
 });
 
 export default toggleSlice.reducer;
-export const { toggleSidebar } = toggleSlice.actions;
+export const { toggleSidebar, closeSideBar } = toggleSlice.actions;
