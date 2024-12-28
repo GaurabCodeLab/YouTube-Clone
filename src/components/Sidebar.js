@@ -1,6 +1,6 @@
 const Sidebar = () => {
   return (
-    <div className="pr-10 border-r">
+    <div className="pr-20 border-r">
       <div className="py-8">
         <h3 className="font-semibold cursor-pointer">Home</h3>
         <ul className="cursor-pointer">

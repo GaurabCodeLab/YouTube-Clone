@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { YOUTUBE_API } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { closeSideBar } from "../redux/toggleSlice";
+import { handleSidebar } from "../redux/toggleSlice";
 
 const VideoContainer = () => {
   const [data, setData] = useState([]);
@@ -17,18 +17,22 @@ const VideoContainer = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    dispatch(handleSidebar(true));
+  }, [dispatch]);
   const handleClick = (id) => {
     navigate(`/watch?v=${id}`);
-    dispatch(closeSideBar());
+    dispatch(handleSidebar(false));
   };
 
-  console.log(data[0]);
   return (
     <div className="grid grid-cols-3 gap-2">
       {data.length &&
         data.map((value) => (
           <div
             className="p-4 rounded-md cursor-pointer"
+            key={value.snippet.title}
             onClick={() => handleClick(value.id)}
           >
             <img

@@ -1,7 +1,15 @@
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { handleSidebar } from "../redux/toggleSlice";
 
 const Video = () => {
   const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(handleSidebar(false));
+  }, [dispatch]);
 
   const videoId = searchParams.get("v");
   return (
@@ -11,10 +19,10 @@ const Video = () => {
         height="415"
         src={`https://www.youtube.com/embed/${videoId}?si=-pJAh9GvTVJFrBKI&autoplay=1`}
         title="YouTube video player"
-        frameborder="0"
+        frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
       ></iframe>
     </div>
   );

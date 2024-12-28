@@ -10,6 +10,7 @@ const Home = () => {
             className={`px-4 py-1 ${
               index === 0 ? "bg-black text-white" : "bg-[#E5E5E5]"
             } rounded-md`}
+            key={value}
           >
             {value}
           </button>

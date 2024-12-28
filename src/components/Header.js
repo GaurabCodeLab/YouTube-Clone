@@ -1,12 +1,35 @@
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { YOUTUBE_LOGO } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { toggleSidebar } from "../redux/toggleSlice";
+import { useNavigate } from "react-router-dom";
+import { YOUTUBE_SUGGESTION_API } from "../utils/constants";
 
 const Header = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [queryResult, setQueryResult] = useState([]);
+  const [showQueryResult, setShowQueryResult] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchQueryData = async () => {
+      try {
+        const response = await fetch(YOUTUBE_SUGGESTION_API + searchQuery);
+        if (!response.ok) {
+          throw new Error("Something went wrong");
+        }
+        const result = await response.json();
+        setQueryResult(result[1]);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    fetchQueryData();
+  }, [searchQuery]);
   return (
     <div className="shadow-md grid grid-flow-col">
       <div className="flex gap-2 col-span-2">
@@ -21,16 +44,35 @@ const Header = () => {
           src={YOUTUBE_LOGO}
           alt="youtube-logo"
           className="w-36 cursor-pointer"
+          onClick={() => navigate("/")}
         />
       </div>
-      <div className="col-span-8 flex items-center">
+      <div className="col-span-8 flex items-center relative">
         <input
           type="text"
           className="w-[70%] h-1/2 rounded-tl-full rounded-bl-full border ps-4"
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => setShowQueryResult(true)}
+          onBlur={() => setShowQueryResult(false)}
         />
         <button className="border h-1/2 px-4 rounded-tr-full rounded-br-full bg-slate-200">
           <IoIosSearch />
         </button>
+        {queryResult.length && showQueryResult && (
+          <div className="absolute top-[80%] bg-white w-[70%] rounded-md border flex flex-col py-2">
+            {queryResult.map((value) => (
+              <div
+                className="flex gap-3 hover:bg-[#F2F2F2] ps-5 py-2"
+                key={value}
+              >
+                <div className="self-center">
+                  <IoIosSearch />
+                </div>
+                <div>{value}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="self-center flex justify-end pe-5 col-span-2">
         <IoPersonCircleSharp className="text-3xl cursor-pointer" />
