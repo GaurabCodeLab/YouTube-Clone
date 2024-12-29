@@ -3,10 +3,11 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { YOUTUBE_LOGO } from "../utils/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../redux/toggleSlice";
 import { useNavigate } from "react-router-dom";
 import { YOUTUBE_SUGGESTION_API } from "../utils/constants";
+import { addCache } from "../redux/cacheSlice";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,22 +15,35 @@ const Header = () => {
   const [showQueryResult, setShowQueryResult] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cacheResult = useSelector((store) => store.cacheReducer.searchResults);
 
   useEffect(() => {
-    const fetchQueryData = async () => {
-      try {
-        const response = await fetch(YOUTUBE_SUGGESTION_API + searchQuery);
-        if (!response.ok) {
-          throw new Error("Something went wrong");
-        }
-        const result = await response.json();
-        setQueryResult(result[1]);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-    fetchQueryData();
+    let timer;
+    if (cacheResult && cacheResult[searchQuery]) {
+      setQueryResult(cacheResult[searchQuery]);
+    } else {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fetchQueryData();
+      }, 200);
+    }
+    return () => clearTimeout(timer);
   }, [searchQuery]);
+
+  const fetchQueryData = async () => {
+    try {
+      const response = await fetch(YOUTUBE_SUGGESTION_API + searchQuery);
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const result = await response.json();
+      setQueryResult(result[1]);
+      dispatch(addCache({ [result[0]]: result[1] }));
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className="shadow-md grid grid-flow-col">
       <div className="flex gap-2 col-span-2">
