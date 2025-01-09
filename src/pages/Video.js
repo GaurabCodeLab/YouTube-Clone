@@ -15,7 +15,7 @@ const Video = () => {
 
   const videoId = searchParams.get("v");
   return (
-    <div>
+    <div className="mt-[12vh]">
       <div className="mt-3 flex h-[415px] gap-6">
         <iframe
           width="760"

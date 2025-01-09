@@ -31,7 +31,7 @@ const LiveChat = () => {
     setMessage("");
   };
   return (
-    <div className="">
+    <div>
       <h2 className="font-bold ps-2 pb-1 text-green-500">Live Chat</h2>
       <div
         className="h-full overflow-auto scroll-smooth no-scrollbar"

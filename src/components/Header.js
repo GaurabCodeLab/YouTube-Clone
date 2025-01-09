@@ -45,7 +45,7 @@ const Header = () => {
   };
 
   return (
-    <div className="shadow-md grid grid-flow-col">
+    <div className="shadow-md grid grid-flow-col fixed z-[999999] bg-white w-full h-[12vh]">
       <div className="flex gap-2 col-span-2">
         <div className="self-center ps-4">
           {" "}
@@ -72,7 +72,7 @@ const Header = () => {
         <button className="border h-1/2 px-4 rounded-tr-full rounded-br-full bg-slate-200">
           <IoIosSearch />
         </button>
-        {queryResult.length && showQueryResult && (
+        {queryResult.length > 0 && showQueryResult && (
           <div className="absolute top-[80%] bg-white w-[70%] rounded-md border flex flex-col py-2">
             {queryResult.map((value) => (
               <div
