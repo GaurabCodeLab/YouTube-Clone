@@ -4,10 +4,11 @@ import { generateRandomName, makeRandomMessage } from "../utils/helper";
 
 const LiveChat = () => {
   const [chatsDetails, setChatDetails] = useState([]);
+  const [message, setMessage] = useState(null);
   const ele = useRef();
   useEffect(() => {
     const timer = setInterval(() => {
-      if (chatsDetails.length > 20) {
+      if (chatsDetails.length > 200) {
         chatsDetails.unshift();
       }
       ele.current.scrollTop =
@@ -22,9 +23,15 @@ const LiveChat = () => {
     return () => clearTimeout(timer);
   }, [chatsDetails]);
 
-  console.log("chat details", chatsDetails);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setChatDetails((pre) => {
+      return [...pre, { name: "Gaurab Kumar", message: message }];
+    });
+    setMessage("");
+  };
   return (
-    <div className="border">
+    <div className="">
       <h2 className="font-bold ps-2 pb-1 text-green-500">Live Chat</h2>
       <div
         className="h-full overflow-auto scroll-smooth no-scrollbar"
@@ -39,10 +46,14 @@ const LiveChat = () => {
             </div>
           ))}
       </div>
-      <div>
-        <input className="border ps-2 py-1 me-3" />
+      <form onSubmit={handleSubmit}>
+        <input
+          className="border ps-2 py-1 me-3"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
         <button className="border py-1 px-3 rounded-sm">Send</button>
-      </div>
+      </form>
     </div>
   );
 };
