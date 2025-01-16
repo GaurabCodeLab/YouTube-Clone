@@ -44,6 +44,18 @@ const Header = () => {
     }
   };
 
+  const handleClick = async (value) => {
+    try {
+      const response = await fetch();
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      console.log("response hai", response);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className="shadow-md grid grid-flow-col fixed z-[999999] bg-white w-full h-[12vh]">
       <div className="flex gap-2 col-span-2">
@@ -78,6 +90,7 @@ const Header = () => {
               <div
                 className="flex gap-3 hover:bg-[#F2F2F2] ps-5 py-2"
                 key={value}
+                onClick={handleClick(value)}
               >
                 <div className="self-center">
                   <IoIosSearch />

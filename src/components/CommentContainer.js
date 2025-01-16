@@ -73,40 +73,40 @@ const commentsData = [
   },
 ];
 
-const Comment = ({ data }) => {
-  const { name, text } = data;
+const Comment = ({ comment }) => {
+  const { name, text } = comment;
   return (
-    <>
-      <div className="flex gap-2 bg-slate-200 w-[66%] p-2 mb-4">
-        <div className="self-center text-4xl">
+    <div className="mb-3">
+      <div className="flex gap-2 bg-gray-300 p-2">
+        <div className="text-4xl self-center">
           <IoPersonCircleSharp />
         </div>
-        <div>
+        <div className="flex self-center justify-center flex-col">
           <div className="font-bold">{name}</div>
-          <div>{text}</div>
+          <p>{text}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
 const CommentList = ({ comments }) => {
-  return comments.map((comment, index) => (
-    <div key={index}>
-      <Comment data={comment} />
-      <div className="ms-5 border-l-2">
+  return comments.map((comment) => (
+    <>
+      <Comment comment={comment} />
+      <div className="ml-4 border-l-2">
         <CommentList comments={comment.replies} />
       </div>
-    </div>
+    </>
   ));
 };
 
 const CommentContainer = () => {
   return (
-    <>
-      <h2 className="text-xl mt-10 mb-4 font-bold">Comments:</h2>
+    <div className="mt-3 w-[66%]">
+      <div className="font-bold text-xl mb-3">Comments:</div>
       <CommentList comments={commentsData} />
-    </>
+    </div>
   );
 };
 

@@ -12,7 +12,7 @@ const LiveChat = () => {
         chatsDetails.unshift();
       }
       ele.current.scrollTop =
-        ele.current.scrollHeight + ele.current.clientHeight;
+        ele?.current?.scrollHeight + ele?.current?.clientHeight;
       setChatDetails((pre) => {
         return [
           ...pre,
